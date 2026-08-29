@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Gamepad2, Compass, Bookmark, LogIn, LogOut, Loader2 } from 'lucide-react';
+import { Gamepad2, Compass, Bookmark, LogIn, LogOut, Loader2, Code2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 interface NavbarProps {
   activeTab: 'explore' | 'vault';
   setActiveTab: (tab: 'explore' | 'vault') => void;
   onOpenAuth: () => void;
+  onOpenAbout: () => void;
   vaultCount: number;
 }
 
@@ -14,6 +15,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   activeTab,
   setActiveTab,
   onOpenAuth,
+  onOpenAbout,
   vaultCount,
 }) => {
   const { user, logout } = useAuth();
@@ -96,8 +98,18 @@ export const Navbar: React.FC<NavbarProps> = ({
           </button>
         </nav>
 
-        {/* Account Controls */}
-        <div className="flex items-center">
+        {/* Account & About Controls */}
+        <div className="flex items-center gap-2.5">
+          {/* About Developer Button */}
+          <button
+            onClick={onOpenAbout}
+            title="About Creator & Architecture"
+            className="flex items-center gap-2 h-8 px-3.5 bg-white/[0.04] hover:bg-white/[0.12] border border-white/[0.08] hover:border-white/20 text-zinc-300 hover:text-white text-xs font-bold rounded-full transition-all shadow-sm hover:scale-105"
+          >
+            <Code2 className="w-3.5 h-3.5 text-white" />
+            <span>About</span>
+          </button>
+
           {user ? (
             <div className="flex items-center gap-2 h-8 pl-1.5 pr-2.5 bg-[#141417] hover:bg-[#18181c] border border-[#27272a] hover:border-[#3f3f46] rounded-full transition-all cursor-pointer shadow-sm group">
               <div className="w-5 h-5 rounded-full bg-white text-black flex items-center justify-center font-extrabold text-[10px]">

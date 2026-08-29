@@ -213,18 +213,29 @@ export const ExploreView: React.FC<ExploreViewProps> = ({ onSelectGame, onOpenAu
 
       </div>
 
-      {/* Error Alert */}
+      {/* Error Alert - Sleek Modern Design */}
       {error && games.length === 0 && (
-        <div className="p-4 bg-[#141417] border border-red-800 rounded-xl flex items-center justify-between text-xs text-red-300">
-          <div className="flex items-center gap-2">
-            <AlertTriangle className="w-5 h-5 text-white flex-shrink-0" />
-            <span>{error}</span>
+        <div className="max-w-xl mx-auto my-6 p-6 bg-[#0c0c0e] border border-white/[0.08] rounded-2xl sm:rounded-3xl shadow-xl flex flex-col items-center text-center space-y-4">
+          <div className="w-12 h-12 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-zinc-300">
+            <AlertTriangle className="w-6 h-6 text-zinc-300" />
           </div>
+
+          <div className="space-y-1.5 max-w-md">
+            <h3 className="text-base font-bold text-white tracking-tight">
+              Unable to load games
+            </h3>
+            <p className="text-xs text-zinc-400 leading-relaxed">
+              {error}
+            </p>
+          </div>
+
           <button
             onClick={loadInitial}
-            className="flex items-center gap-1 px-3 py-1 bg-white text-black font-bold rounded-md transition-colors"
+            disabled={loading}
+            className="flex items-center gap-2 px-5 py-2 bg-white hover:bg-zinc-200 text-black text-xs font-bold rounded-full transition-all shadow-sm hover:scale-105 disabled:opacity-50"
           >
-            <RefreshCw className="w-3.5 h-3.5 text-black" /> Retry
+            <RefreshCw className={`w-3.5 h-3.5 text-black ${loading ? 'animate-spin' : ''}`} />
+            <span>{loading ? 'Reconnecting...' : 'Try Again'}</span>
           </button>
         </div>
       )}

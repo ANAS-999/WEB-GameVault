@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/games/(.*)",
+      "destination": "/api/games?endpoint=$1"
+    },
+    {
+      "source": "/api/igdb/(.*)",
+      "destination": "/api/igdb?endpoint=$1"
+    },
+    {
+      "source": "/((?!api/).*)",
+      "destination": "/index.html"
+    }
+  ]
+}

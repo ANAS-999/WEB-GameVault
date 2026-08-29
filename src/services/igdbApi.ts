@@ -49,6 +49,9 @@ async function queryIgdb(endpoint: string, apicalypseQuery: string): Promise<any
   const primaryUrl = `/api/games/${cleanEndpoint}`;
   const secondaryUrl = `/api/igdb/${cleanEndpoint}`;
 
+  let lastStatus = 0;
+  let lastError = '';
+
   try {
     const response = await fetch(primaryUrl, {
       method: 'POST',
@@ -59,22 +62,47 @@ async function queryIgdb(endpoint: string, apicalypseQuery: string): Promise<any
     if (response.ok) {
       return await response.json();
     }
-  } catch (primaryErr) {
-    // fallback
+    lastStatus = response.status;
+  } catch (primaryErr: any) {
+    lastError = primaryErr?.message || '';
   }
 
-  const fallbackResponse = await fetch(secondaryUrl, {
-    method: 'POST',
-    headers: getHeaders(),
-    body: apicalypseQuery,
-  });
+  try {
+    const fallbackResponse = await fetch(secondaryUrl, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: apicalypseQuery,
+    });
 
-  if (!fallbackResponse.ok) {
-    const errorText = await fallbackResponse.text();
-    throw new Error(`IGDB API Error (${fallbackResponse.status}): ${errorText}`);
+    if (fallbackResponse.ok) {
+      return await fallbackResponse.json();
+    }
+    lastStatus = fallbackResponse.status;
+    const rawError = await fallbackResponse.text();
+    if (rawError && !rawError.includes('<!DOCTYPE') && !rawError.includes('NOT_FOUND')) {
+      try {
+        const json = JSON.parse(rawError);
+        lastError = json.message || json.error || (Array.isArray(json) && json[0]?.title) || rawError;
+      } catch {
+        lastError = rawError;
+      }
+    }
+  } catch (fallbackErr: any) {
+    lastError = fallbackErr?.message || '';
   }
 
-  return await fallbackResponse.json();
+  // Format clean user-facing error message
+  if (lastStatus === 404) {
+    throw new Error('Game database service is temporarily unavailable. If you just deployed, please ensure Vercel API routes are enabled.');
+  }
+  if (lastStatus === 401 || lastStatus === 403) {
+    throw new Error('IGDB authorization expired or invalid. Please check your API credentials.');
+  }
+  if (lastStatus === 429) {
+    throw new Error('Too many requests to the game database. Please wait a few seconds and retry.');
+  }
+
+  throw new Error(lastError || 'Unable to connect to the game database. Please check your connection and try again.');
 }
 
 /**

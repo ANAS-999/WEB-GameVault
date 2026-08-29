@@ -7,6 +7,7 @@ import { ExploreView } from './views/ExploreView';
 import { VaultView } from './views/VaultView';
 import { GameModal } from './components/GameModal';
 import { AuthModal } from './components/AuthModal';
+import { AboutModal } from './components/AboutModal';
 import { IGDBGame } from './types';
 import { AlertCircle } from 'lucide-react';
 
@@ -17,15 +18,17 @@ const AppContent: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'explore' | 'vault'>('explore');
   const [selectedGame, setSelectedGame] = useState<IGDBGame | null>(null);
   const [isAuthOpen, setIsAuthOpen] = useState<boolean>(false);
+  const [isAboutOpen, setIsAboutOpen] = useState<boolean>(false);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0c] text-[#e4e4e7] flex flex-col font-sans">
+    <div className="min-h-screen bg-[#0a0a0c] text-[#e4e4e7] flex flex-col font-sans relative">
       
       {/* Navigation Header */}
       <Navbar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         onOpenAuth={() => setIsAuthOpen(true)}
+        onOpenAbout={() => setIsAboutOpen(true)}
         vaultCount={vaultItems.length}
       />
 
@@ -85,7 +88,16 @@ const AppContent: React.FC = () => {
       <footer className="border-t border-[#18181c] bg-[#0a0a0c] py-6 px-6 text-center text-xs text-[#8e8e93]">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
           <span className="font-extrabold text-white tracking-tight">GAME VAULT</span>
-          <span className="text-[11px] font-medium text-[#71717a]">Powered by IGDB API & Firebase</span>
+          <div className="flex items-center gap-4 text-[11px] font-medium text-[#71717a]">
+            <span>Powered by IGDB API & Firebase</span>
+            <span>•</span>
+            <button 
+              onClick={() => setIsAboutOpen(true)}
+              className="text-zinc-400 hover:text-white transition-colors underline-offset-4 hover:underline"
+            >
+              About Developer
+            </button>
+          </div>
         </div>
       </footer>
 
@@ -100,6 +112,11 @@ const AppContent: React.FC = () => {
       <AuthModal
         isOpen={isAuthOpen}
         onClose={() => setIsAuthOpen(false)}
+      />
+
+      <AboutModal
+        isOpen={isAboutOpen}
+        onClose={() => setIsAboutOpen(false)}
       />
 
     </div>
