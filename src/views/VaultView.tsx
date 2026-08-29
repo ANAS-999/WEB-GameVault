@@ -108,21 +108,29 @@ export const VaultView: React.FC<VaultViewProps> = ({ onSelectGame, onOpenAuth }
 
   if (!user) {
     return (
-      <div className="max-w-md mx-auto py-20 text-center space-y-4">
-        <div className="w-14 h-14 bg-[#141417] border border-[#27272a] rounded-2xl mx-auto flex items-center justify-center text-white">
-          <Bookmark className="w-7 h-7 text-white" />
+      <div className="min-h-[55vh] flex items-center justify-center py-10">
+        <div className="w-full max-w-xl p-8 bg-[#0c0c0e] border border-white/[0.08] rounded-3xl shadow-2xl flex flex-col items-center text-center space-y-4">
+          <div className="w-12 h-12 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-zinc-300">
+            <Bookmark className="w-6 h-6 text-zinc-300" />
+          </div>
+
+          <div className="space-y-1.5 max-w-md">
+            <h3 className="text-base font-bold text-white tracking-tight">
+              Your Vault is Locked
+            </h3>
+            <p className="text-xs text-zinc-400 leading-relaxed">
+              Sign in to save games, track your playing backlog, and sync your personalized library across devices.
+            </p>
+          </div>
+
+          <button
+            onClick={onOpenAuth}
+            className="flex items-center gap-2 px-5 py-2 bg-white hover:bg-zinc-200 text-black text-xs font-bold rounded-full transition-all shadow-sm hover:scale-105"
+          >
+            <LogIn className="w-3.5 h-3.5 text-black" />
+            <span>Sign In to Access Vault</span>
+          </button>
         </div>
-        <h2 className="text-xl font-bold text-white tracking-tight">Your Vault is Locked</h2>
-        <p className="text-xs text-[#8e8e93] leading-relaxed">
-          Sign in to collect games and track completion statuses.
-        </p>
-        <button
-          onClick={onOpenAuth}
-          className="inline-flex items-center gap-2 px-5 py-2.5 bg-white hover:bg-[#e4e4e7] text-black text-xs font-extrabold rounded-xl transition-colors shadow-sm"
-        >
-          <LogIn className="w-4 h-4 text-black" />
-          Sign In to Access Vault
-        </button>
       </div>
     );
   }

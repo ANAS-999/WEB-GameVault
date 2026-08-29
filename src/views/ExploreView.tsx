@@ -213,34 +213,7 @@ export const ExploreView: React.FC<ExploreViewProps> = ({ onSelectGame, onOpenAu
 
       </div>
 
-      {/* Error Alert - Sleek Modern Design */}
-      {error && games.length === 0 && (
-        <div className="max-w-xl mx-auto my-6 p-6 bg-[#0c0c0e] border border-white/[0.08] rounded-2xl sm:rounded-3xl shadow-xl flex flex-col items-center text-center space-y-4">
-          <div className="w-12 h-12 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-zinc-300">
-            <AlertTriangle className="w-6 h-6 text-zinc-300" />
-          </div>
-
-          <div className="space-y-1.5 max-w-md">
-            <h3 className="text-base font-bold text-white tracking-tight">
-              Unable to load games
-            </h3>
-            <p className="text-xs text-zinc-400 leading-relaxed">
-              {error}
-            </p>
-          </div>
-
-          <button
-            onClick={loadInitial}
-            disabled={loading}
-            className="flex items-center gap-2 px-5 py-2 bg-white hover:bg-zinc-200 text-black text-xs font-bold rounded-full transition-all shadow-sm hover:scale-105 disabled:opacity-50"
-          >
-            <RefreshCw className={`w-3.5 h-3.5 text-black ${loading ? 'animate-spin' : ''}`} />
-            <span>{loading ? 'Reconnecting...' : 'Try Again'}</span>
-          </button>
-        </div>
-      )}
-
-      {/* Poster Grid */}
+      {/* Main Content Area: Loading / Error / Empty / Grid */}
       {loading ? (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
           {Array.from({ length: 10 }).map((_, idx) => (
@@ -250,6 +223,32 @@ export const ExploreView: React.FC<ExploreViewProps> = ({ onSelectGame, onOpenAu
               <div className="h-3 bg-[#141417] rounded w-1/2" />
             </div>
           ))}
+        </div>
+      ) : error && games.length === 0 ? (
+        <div className="min-h-[45vh] flex items-center justify-center py-10">
+          <div className="w-full max-w-xl p-8 bg-[#0c0c0e] border border-white/[0.08] rounded-3xl shadow-2xl flex flex-col items-center text-center space-y-4">
+            <div className="w-12 h-12 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-zinc-300">
+              <AlertTriangle className="w-6 h-6 text-zinc-300" />
+            </div>
+
+            <div className="space-y-1.5 max-w-md">
+              <h3 className="text-base font-bold text-white tracking-tight">
+                Unable to load games
+              </h3>
+              <p className="text-xs text-zinc-400 leading-relaxed">
+                {error}
+              </p>
+            </div>
+
+            <button
+              onClick={loadInitial}
+              disabled={loading}
+              className="flex items-center gap-2 px-5 py-2 bg-white hover:bg-zinc-200 text-black text-xs font-bold rounded-full transition-all shadow-sm hover:scale-105 disabled:opacity-50"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 text-black ${loading ? 'animate-spin' : ''}`} />
+              <span>{loading ? 'Reconnecting...' : 'Try Again'}</span>
+            </button>
+          </div>
         </div>
       ) : games.length === 0 ? (
         <div className="text-center py-20 text-[#8e8e93]">
