@@ -224,27 +224,27 @@ export const GameModal: React.FC<GameModalProps> = ({ game, onClose, onOpenAuth,
     <AnimatePresence>
       <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 lg:p-6 bg-black/80 backdrop-blur-md overflow-y-auto overscroll-contain">
         <motion.div
-          initial={{ opacity: 0, scale: 0.96, y: 10 }}
+          initial={{ opacity: 0, scale: 0.95, y: 16 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.96, y: 10 }}
+          exit={{ opacity: 0, scale: 0.95, y: 16 }}
           transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-          className="relative w-full max-w-5xl bg-[#0c0c0e] border border-white/[0.08] rounded-2xl sm:rounded-3xl shadow-[0_0_50px_rgba(0,0,0,0.8)] my-auto max-h-[92vh] flex flex-col overflow-hidden text-zinc-100 overscroll-contain"
+          className="relative w-full max-w-5xl bg-[#0c0c0e] border border-white/[0.08] rounded-2xl sm:rounded-3xl shadow-[0_0_50px_rgba(0,0,0,0.8)] m-2 sm:my-auto max-h-[94vh] sm:max-h-[92vh] flex flex-col overflow-hidden text-zinc-100 overscroll-contain"
         >
           {/* Header Bar - Modern & Sleek */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.06] flex-shrink-0 bg-[#0c0c0e]/90 backdrop-blur-md">
-            <div className="flex items-center gap-3 min-w-0 pr-4">
-              <h2 className="font-bold text-base sm:text-xl text-white truncate tracking-tight">
+          <div className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 border-b border-white/[0.06] flex-shrink-0 bg-[#0c0c0e]/90 backdrop-blur-md">
+            <div className="flex items-center gap-2 sm:gap-3 min-w-0 pr-3 sm:pr-4">
+              <h2 className="font-bold text-sm sm:text-lg lg:text-xl text-white truncate tracking-tight">
                 {game.name}
               </h2>
               {releaseYear !== 'N/A' && (
-                <span className="flex-shrink-0 text-xs font-semibold text-zinc-400 bg-white/[0.04] border border-white/[0.08] px-2.5 py-0.5 rounded-full">
+                <span className="flex-shrink-0 text-[10px] sm:text-xs font-semibold text-zinc-400 bg-white/[0.04] border border-white/[0.08] px-2 sm:px-2.5 py-0.5 rounded-full">
                   {releaseYear}
                 </span>
               )}
             </div>
 
             {/* Header Actions: Store Icon Buttons & Close Button */}
-            <div className="flex items-center gap-2 flex-shrink-0">
+            <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
               {/* Steam Store Icon Button */}
               <a
                 href={directSteamUrl}
@@ -252,9 +252,9 @@ export const GameModal: React.FC<GameModalProps> = ({ game, onClose, onOpenAuth,
                 rel="noopener noreferrer"
                 title="View on Steam"
                 aria-label="View on Steam"
-                className="w-8 h-8 rounded-full flex items-center justify-center bg-white/[0.04] hover:bg-white/[0.12] hover:text-white border border-white/[0.06] text-zinc-400 transition-all hover:scale-105"
+                className="w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center bg-white/[0.04] hover:bg-white/[0.12] hover:text-white border border-white/[0.06] text-zinc-400 transition-all hover:scale-105"
               >
-                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-current" viewBox="0 0 24 24">
                   <path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.03 4.524 4.524s-2.03 4.524-4.524 4.524h-.105l-4.076 2.911c.002.046.006.092.006.139 0 1.876-1.521 3.396-3.396 3.396-1.621 0-2.984-1.135-3.33-2.662L.26 15.698C1.517 20.528 5.95 24 11.979 24c6.627 0 12-5.373 12-12s-5.373-12-12-12z"/>
                 </svg>
               </a>
@@ -266,9 +266,9 @@ export const GameModal: React.FC<GameModalProps> = ({ game, onClose, onOpenAuth,
                 rel="noopener noreferrer"
                 title="View on Epic Games Store"
                 aria-label="View on Epic Games"
-                className="w-8 h-8 rounded-full flex items-center justify-center bg-white/[0.04] hover:bg-white/[0.12] hover:text-white border border-white/[0.06] text-zinc-400 transition-all hover:scale-105"
+                className="w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center bg-white/[0.04] hover:bg-white/[0.12] hover:text-white border border-white/[0.06] text-zinc-400 transition-all hover:scale-105"
               >
-                <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 200 240">
+                <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-current" viewBox="0 0 200 240">
                   <path d="M20 0h160c11 0 20 9 20 20v135c0 10-5 19-13 24l-60 38c-4 3-10 3-14 0l-60-38C5 174 0 165 0 155V20C0 9 9 0 20 0z" fill="currentColor" />
                   <text x="100" y="105" textAnchor="middle" fill="#0c0c0e" fontSize="76" fontFamily="Arial Black, Impact, sans-serif" fontWeight="900" letterSpacing="-2">EPIC</text>
                   <text x="100" y="165" textAnchor="middle" fill="#0c0c0e" fontSize="36" fontFamily="Arial Black, sans-serif" fontWeight="800" letterSpacing="1">GAMES</text>
@@ -276,23 +276,23 @@ export const GameModal: React.FC<GameModalProps> = ({ game, onClose, onOpenAuth,
                 </svg>
               </a>
 
-              <div className="w-[1px] h-4 bg-white/10 mx-0.5" />
+              <div className="w-[1px] h-3.5 sm:h-4 bg-white/10 mx-0.5" />
 
               {/* Close Button */}
               <button
                 onClick={onClose}
-                className="w-8 h-8 rounded-full flex items-center justify-center bg-white/[0.04] hover:bg-white/[0.12] border border-white/[0.06] text-zinc-400 hover:text-white transition-all flex-shrink-0"
+                className="w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center bg-white/[0.04] hover:bg-white/[0.12] border border-white/[0.06] text-zinc-400 hover:text-white transition-all flex-shrink-0"
                 aria-label="Close dialog"
               >
-                <X className="w-4 h-4" />
+                <X className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </button>
             </div>
           </div>
 
           {/* Dialog Body */}
-          <div className="p-6 overflow-y-auto flex-1 space-y-6 scrollbar-thin overscroll-contain">
+          <div className="p-4 sm:p-6 overflow-y-auto flex-1 space-y-5 sm:space-y-6 scrollbar-thin overscroll-contain">
             
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-start">
               
               {/* LEFT COLUMN: Media Showcase */}
               <div className="lg:col-span-7 space-y-3">
@@ -328,7 +328,7 @@ export const GameModal: React.FC<GameModalProps> = ({ game, onClose, onOpenAuth,
 
                   {/* Media Counter Badge */}
                   {mediaGallery.length > 1 && (
-                    <div className="absolute top-3 left-3 z-20 px-2.5 py-1 rounded-lg bg-black/60 backdrop-blur-md text-[10px] font-semibold text-zinc-300 border border-white/10">
+                    <div className="absolute top-2.5 sm:top-3 left-2.5 sm:left-3 z-20 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-lg bg-black/60 backdrop-blur-md text-[9px] sm:text-[10px] font-semibold text-zinc-300 border border-white/10">
                       {isCoverView ? 'Cover Art' : `Screenshot ${activeMediaIndex} / ${mediaGallery.length - 1}`}
                     </div>
                   )}
@@ -339,17 +339,17 @@ export const GameModal: React.FC<GameModalProps> = ({ game, onClose, onOpenAuth,
                       <button
                         onClick={handlePrevMedia}
                         aria-label="Previous image"
-                        className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-black/60 hover:bg-white hover:text-black text-white backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center border border-white/10 hover:scale-105 shadow-lg"
+                        className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 z-20 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-black/60 hover:bg-white hover:text-black text-white backdrop-blur-md opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-all flex items-center justify-center border border-white/10 hover:scale-105 shadow-lg"
                       >
-                        <ChevronLeft className="w-4 h-4" />
+                        <ChevronLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                       </button>
 
                       <button
                         onClick={handleNextMedia}
                         aria-label="Next image"
-                        className="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-black/60 hover:bg-white hover:text-black text-white backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center border border-white/10 hover:scale-105 shadow-lg"
+                        className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 z-20 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-black/60 hover:bg-white hover:text-black text-white backdrop-blur-md opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-all flex items-center justify-center border border-white/10 hover:scale-105 shadow-lg"
                       >
-                        <ChevronRight className="w-4 h-4" />
+                        <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                       </button>
                     </>
                   )}
@@ -358,9 +358,9 @@ export const GameModal: React.FC<GameModalProps> = ({ game, onClose, onOpenAuth,
                   <button
                     onClick={() => setIsLightboxOpen(true)}
                     title="Fullscreen view"
-                    className="absolute top-3 right-3 z-20 w-8 h-8 rounded-xl bg-black/60 hover:bg-white hover:text-black text-white backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center border border-white/10 shadow-lg"
+                    className="absolute top-2.5 sm:top-3 right-2.5 sm:right-3 z-20 w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-black/60 hover:bg-white hover:text-black text-white backdrop-blur-md opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-all flex items-center justify-center border border-white/10 shadow-lg"
                   >
-                    <Maximize2 className="w-3.5 h-3.5" />
+                    <Maximize2 className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                   </button>
                 </div>
 

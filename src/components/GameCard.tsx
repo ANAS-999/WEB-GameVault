@@ -104,41 +104,41 @@ export const GameCard: React.FC<GameCardProps> = ({ game, onSelectGame, onOpenAu
           </div>
         )}
 
-        {/* Quick Add Button on Hover */}
+        {/* Quick Add Button on Hover / Touch */}
         <button
           onClick={handleQuickAdd}
           disabled={isAdding}
           title={isSaved ? `In Vault (${statusLabels[vaultItem.status].label})` : 'Add to Want to Play'}
-          className={`absolute bottom-2 right-2 p-2 rounded-lg text-xs font-medium backdrop-blur-md transition-all shadow-lg ${
+          className={`absolute bottom-2 right-2 p-1.5 sm:p-2 rounded-lg text-xs font-medium backdrop-blur-md transition-all shadow-lg ${
             isSaved
-              ? 'bg-white text-black font-bold'
-              : 'bg-white text-black hover:bg-zinc-200 opacity-0 group-hover:opacity-100'
+              ? 'bg-white text-black font-bold opacity-100'
+              : 'bg-white text-black hover:bg-zinc-200 opacity-90 sm:opacity-0 sm:group-hover:opacity-100'
           }`}
         >
           {isAdding ? (
-            <Loader2 className="w-4 h-4 animate-spin text-black" />
+            <Loader2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 animate-spin text-black" />
           ) : isSaved ? (
-            <Check className="w-4 h-4 text-black" />
+            <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-black" />
           ) : (
-            <Plus className="w-4 h-4 text-black" />
+            <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-black" />
           )}
         </button>
       </div>
 
       {/* Clean Details Below */}
-      <div className="px-0.5 space-y-1">
-        <h3 className="font-bold text-sm text-white line-clamp-1 group-hover:text-zinc-300 transition-colors tracking-tight">
+      <div className="px-0.5 space-y-0.5 sm:space-y-1">
+        <h3 className="font-bold text-xs sm:text-sm text-white line-clamp-1 group-hover:text-zinc-300 transition-colors tracking-tight">
           {game.name}
         </h3>
 
-        <div className="flex items-center justify-between text-xs text-[#8e8e93]">
+        <div className="flex items-center justify-between text-[11px] sm:text-xs text-[#8e8e93]">
           {releaseYear ? (
             <span className="flex items-center gap-1 font-medium">
-              <Calendar className="w-3 h-3 text-white" />
+              <Calendar className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" />
               {releaseYear}
             </span>
           ) : (
-            <span className="text-[11px] font-medium text-[#8e8e93]">
+            <span className="text-[10px] sm:text-[11px] font-medium text-[#8e8e93]">
               {game.genres?.[0]?.name || 'Game'}
             </span>
           )}
@@ -146,8 +146,8 @@ export const GameCard: React.FC<GameCardProps> = ({ game, onSelectGame, onOpenAu
           {/* Platform Badges */}
           {uniquePlatforms.length > 0 && (
             <div className="flex items-center gap-1">
-              <Monitor className="w-3 h-3 text-[#71717a]" />
-              <span className="text-[10px] font-bold text-zinc-300 truncate max-w-[80px]">
+              <Monitor className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[#71717a]" />
+              <span className="text-[9px] sm:text-[10px] font-bold text-zinc-300 truncate max-w-[65px] sm:max-w-[80px]">
                 {uniquePlatforms.join(', ')}
               </span>
             </div>

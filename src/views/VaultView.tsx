@@ -136,13 +136,13 @@ export const VaultView: React.FC<VaultViewProps> = ({ onSelectGame, onOpenAuth }
   }
 
   return (
-    <div className="space-y-8 pt-2">
+    <div className="space-y-6 sm:space-y-8 pt-1 sm:pt-2">
       
       {/* Top Filter Bar & Controls */}
-      <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+      <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 sm:gap-4">
         
         {/* Status Filter Pills */}
-        <div className="flex items-center gap-1 overflow-x-auto pb-1 scrollbar-none">
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar justify-start px-1">
           {statusTabs.map((tab) => {
             const Icon = tab.icon;
             const count = counts[tab.id];
@@ -150,7 +150,7 @@ export const VaultView: React.FC<VaultViewProps> = ({ onSelectGame, onOpenAuth }
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
+                className={`flex items-center gap-1.5 px-3.5 sm:px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all flex-shrink-0 ${
                   activeTab === tab.id
                     ? 'bg-white text-black font-extrabold shadow-sm'
                     : 'text-[#8e8e93] hover:text-white hover:bg-[#18181c]'
@@ -165,7 +165,7 @@ export const VaultView: React.FC<VaultViewProps> = ({ onSelectGame, onOpenAuth }
         </div>
 
         {/* Search & Sort Controls */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           <div className="relative flex-1 sm:w-48">
             <Search className="w-3.5 h-3.5 text-white absolute left-3 top-2.5" />
             <input
@@ -185,7 +185,7 @@ export const VaultView: React.FC<VaultViewProps> = ({ onSelectGame, onOpenAuth }
             )}
           </div>
 
-          <div className="flex items-center gap-1.5 bg-[#141417] border border-[#27272a] rounded-xl px-3 py-1.5">
+          <div className="flex items-center gap-1.5 bg-[#141417] border border-[#27272a] rounded-xl px-2.5 sm:px-3 py-1.5 flex-shrink-0">
             <ArrowUpDown className="w-3.5 h-3.5 text-white" />
             <select
               value={sortBy}
@@ -202,7 +202,7 @@ export const VaultView: React.FC<VaultViewProps> = ({ onSelectGame, onOpenAuth }
 
       {/* Poster Grid Layout for Vault Items */}
       {loading ? (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-6">
           {Array.from({ length: 5 }).map((_, idx) => (
             <div key={idx} className="space-y-2 animate-pulse">
               <div className="w-full aspect-[3/4] bg-[#141417] rounded-xl" />
@@ -212,13 +212,13 @@ export const VaultView: React.FC<VaultViewProps> = ({ onSelectGame, onOpenAuth }
           ))}
         </div>
       ) : filteredItems.length === 0 ? (
-        <div className="text-center py-20 text-[#8e8e93] space-y-2">
-          <Gamepad2 className="w-10 h-10 text-white mx-auto" />
+        <div className="text-center py-16 sm:py-20 text-[#8e8e93] space-y-2">
+          <Gamepad2 className="w-8 h-8 sm:w-10 sm:h-10 text-white mx-auto" />
           <p className="text-white font-bold text-sm">No games in this section.</p>
           <p className="text-xs">Browse the Explore tab to add games to your vault!</p>
         </div>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-6">
           {filteredItems.map((item) => {
             const shortPlatforms = item.platforms?.map(formatPlatformShort) || [];
             const uniquePlatforms = Array.from(new Set(shortPlatforms)).slice(0, 3);
@@ -231,7 +231,7 @@ export const VaultView: React.FC<VaultViewProps> = ({ onSelectGame, onOpenAuth }
                 onClick={() => handleOpenModal(item)}
                 className="group relative cursor-pointer flex flex-col gap-2 select-none"
               >
-                {/* Cover Poster */}
+                {/* Poster Image Container */}
                 <div className="relative aspect-[3/4] w-full bg-[#141417] rounded-xl overflow-hidden shadow-md">
                   <img
                     src={getIgdbImageUrl(item.coverUrl, undefined, 't_1080p')}
@@ -240,48 +240,56 @@ export const VaultView: React.FC<VaultViewProps> = ({ onSelectGame, onOpenAuth }
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
 
+                  {/* Rating Score Badge */}
+                  {item.ratingScore && (
+                    <div className="absolute top-2 left-2 bg-[#0a0a0c]/90 border border-[#27272a] text-white text-[11px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1 backdrop-blur-md">
+                      <Star className="w-3 h-3 text-white fill-white" />
+                      <span>{Math.round(item.ratingScore)}%</span>
+                    </div>
+                  )}
+
                   {/* Status Badge */}
                   <div className={`absolute top-2 right-2 text-[10px] font-bold px-2 py-0.5 rounded-md shadow-md ${statusLabels[item.status].bg} ${statusLabels[item.status].text}`}>
                     {statusLabels[item.status].label}
                   </div>
 
-                  {/* Delete Button on Hover */}
+                  {/* Delete Button on Hover / Touch */}
                   <button
                     onClick={(e) => handleRemove(e, item.gameId)}
                     disabled={deletingId === item.gameId}
                     title="Remove from vault"
-                    className="absolute bottom-2 right-2 p-2 rounded-lg bg-black/80 text-white hover:text-red-400 opacity-0 group-hover:opacity-100 transition-all backdrop-blur-md disabled:opacity-100"
+                    className="absolute bottom-2 right-2 p-1.5 sm:p-2 rounded-lg bg-black/80 text-white hover:text-red-400 opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-all backdrop-blur-md disabled:opacity-100"
                   >
                     {deletingId === item.gameId ? (
-                      <Loader2 className="w-4 h-4 animate-spin text-white" />
+                      <Loader2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 animate-spin text-white" />
                     ) : (
-                      <Trash2 className="w-4 h-4 text-white hover:text-red-400" />
+                      <Trash2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white hover:text-red-400" />
                     )}
                   </button>
                 </div>
 
                 {/* Poster Details Below */}
-                <div className="px-0.5 space-y-1">
-                  <h3 className="font-bold text-sm text-white line-clamp-1 group-hover:text-zinc-[#3f3f46] transition-colors tracking-tight">
+                <div className="px-0.5 space-y-0.5 sm:space-y-1">
+                  <h3 className="font-bold text-xs sm:text-sm text-white line-clamp-1 group-hover:text-zinc-300 transition-colors tracking-tight">
                     {item.title}
                   </h3>
 
-                  <div className="flex items-center justify-between text-xs text-[#8e8e93]">
+                  <div className="flex items-center justify-between text-[11px] sm:text-xs text-[#8e8e93]">
                     {item.releaseYear ? (
                       <span className="flex items-center gap-1 font-medium">
-                        <Calendar className="w-3 h-3 text-white" />
+                        <Calendar className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" />
                         {item.releaseYear}
                       </span>
                     ) : (
-                      <span className="text-[11px] font-medium text-[#8e8e93]">
+                      <span className="text-[10px] sm:text-[11px] font-medium text-[#8e8e93]">
                         {item.genres[0] || 'Game'}
                       </span>
                     )}
 
                     {uniquePlatforms.length > 0 && (
                       <div className="flex items-center gap-1">
-                        <Monitor className="w-3 h-3 text-[#71717a]" />
-                        <span className="text-[10px] font-bold text-zinc-300 truncate max-w-[80px]">
+                        <Monitor className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[#71717a]" />
+                        <span className="text-[9px] sm:text-[10px] font-bold text-zinc-300 truncate max-w-[65px] sm:max-w-[80px]">
                           {uniquePlatforms.join(', ')}
                         </span>
                       </div>

@@ -158,20 +158,20 @@ export const ExploreView: React.FC<ExploreViewProps> = ({ onSelectGame, onOpenAu
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       
       {/* Sleek Search & Filter Bar */}
-      <div className="space-y-4 max-w-4xl mx-auto pt-2">
+      <div className="space-y-3 sm:space-y-4 max-w-4xl mx-auto pt-1 sm:pt-2">
         
         <form onSubmit={handleSearchSubmit} className="relative flex items-center">
-          <Search className="w-5 h-5 text-white absolute left-4" />
+          <Search className="w-4 h-4 sm:w-5 sm:h-5 text-white absolute left-3.5 sm:left-4" />
           
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search thousands of video games..."
-            className="w-full bg-[#141417] border border-[#27272a] rounded-2xl pl-12 pr-32 py-3.5 text-sm text-white placeholder-[#71717a] focus:border-white focus:outline-none transition-colors shadow-sm"
+            className="w-full bg-[#141417] border border-[#27272a] rounded-2xl pl-10 sm:pl-12 pr-24 sm:pr-32 py-2.5 sm:py-3.5 text-xs sm:text-sm text-white placeholder-[#71717a] focus:border-white focus:outline-none transition-colors shadow-sm"
           />
 
           {/* Clear Search Button */}
@@ -180,7 +180,7 @@ export const ExploreView: React.FC<ExploreViewProps> = ({ onSelectGame, onOpenAu
               type="button"
               onClick={handleClearSearch}
               title="Clear search"
-              className="absolute right-24 p-1.5 text-[#71717a] hover:text-white transition-colors"
+              className="absolute right-20 sm:right-24 p-1.5 text-[#71717a] hover:text-white transition-colors"
             >
               <X className="w-4 h-4 text-white" />
             </button>
@@ -188,19 +188,19 @@ export const ExploreView: React.FC<ExploreViewProps> = ({ onSelectGame, onOpenAu
 
           <button
             type="submit"
-            className="absolute right-2 px-5 py-2 bg-white hover:bg-[#e4e4e7] text-black text-xs font-extrabold rounded-xl transition-colors"
+            className="absolute right-1.5 sm:right-2 px-3.5 sm:px-5 py-1.5 sm:py-2 bg-white hover:bg-[#e4e4e7] text-black text-xs font-extrabold rounded-xl transition-colors"
           >
             Search
           </button>
         </form>
 
         {/* Minimal Category Navigation */}
-        <div className="flex items-center justify-center gap-1 overflow-x-auto pb-1 scrollbar-none">
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar justify-start sm:justify-center px-1">
           {genresList.map((genre) => (
             <button
               key={genre.id}
               onClick={() => handleGenreClick(genre.id)}
-              className={`px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
+              className={`px-3.5 sm:px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all flex-shrink-0 ${
                 activeGenre === genre.id
                   ? 'bg-white text-black font-extrabold shadow-sm'
                   : 'text-[#8e8e93] hover:text-white hover:bg-[#18181c]'
@@ -215,7 +215,7 @@ export const ExploreView: React.FC<ExploreViewProps> = ({ onSelectGame, onOpenAu
 
       {/* Main Content Area: Loading / Error / Empty / Grid */}
       {loading ? (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-6">
           {Array.from({ length: 10 }).map((_, idx) => (
             <div key={idx} className="space-y-2 animate-pulse">
               <div className="w-full aspect-[3/4] bg-[#141417] rounded-xl" />
@@ -225,8 +225,8 @@ export const ExploreView: React.FC<ExploreViewProps> = ({ onSelectGame, onOpenAu
           ))}
         </div>
       ) : error && games.length === 0 ? (
-        <div className="min-h-[45vh] flex items-center justify-center py-10">
-          <div className="w-full max-w-xl p-8 bg-[#0c0c0e] border border-white/[0.08] rounded-3xl shadow-2xl flex flex-col items-center text-center space-y-4">
+        <div className="min-h-[45vh] flex items-center justify-center py-10 px-2">
+          <div className="w-full max-w-xl p-6 sm:p-8 bg-[#0c0c0e] border border-white/[0.08] rounded-2xl sm:rounded-3xl shadow-2xl flex flex-col items-center text-center space-y-4">
             <div className="w-12 h-12 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-zinc-300">
               <AlertTriangle className="w-6 h-6 text-zinc-300" />
             </div>
@@ -251,12 +251,12 @@ export const ExploreView: React.FC<ExploreViewProps> = ({ onSelectGame, onOpenAu
           </div>
         </div>
       ) : games.length === 0 ? (
-        <div className="text-center py-20 text-[#8e8e93]">
+        <div className="text-center py-16 sm:py-20 text-[#8e8e93]">
           <p className="text-sm font-medium">No games found matching your search query.</p>
         </div>
       ) : (
         <div className="space-y-8">
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-6">
             {games.map((game) => (
               <GameCard
                 key={game.id}

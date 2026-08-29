@@ -33,11 +33,11 @@ const AppContent: React.FC = () => {
       />
 
       {/* Main Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-6 lg:px-10 py-6 space-y-8">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-10 pt-3 sm:pt-6 pb-24 sm:pb-8 space-y-6 sm:space-y-8">
         
         {/* Firebase Config Info Banner if placeholders detected */}
         {!isFirebaseReady && (
-          <div className="p-4 bg-[#141417] border border-[#27272a] rounded-xl flex items-start gap-3 text-xs text-white">
+          <div className="p-3.5 sm:p-4 bg-[#141417] border border-[#27272a] rounded-xl flex items-start gap-3 text-xs text-white">
             <AlertCircle className="w-5 h-5 text-white flex-shrink-0 mt-0.5" />
             <div className="space-y-1">
               <span className="font-bold text-white">Firebase Setup Required</span>
@@ -85,7 +85,7 @@ const AppContent: React.FC = () => {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-[#18181c] bg-[#0a0a0c] py-6 px-6 text-center text-xs text-[#8e8e93]">
+      <footer className="border-t border-[#18181c] bg-[#0a0a0c] py-5 sm:py-6 px-4 sm:px-6 text-center text-xs text-[#8e8e93]">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
           <span className="font-extrabold text-white tracking-tight">GAME VAULT</span>
           <div className="flex items-center gap-4 text-[11px] font-medium text-[#71717a]">
