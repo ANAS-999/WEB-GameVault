@@ -14,8 +14,8 @@ interface VercelResponse {
   end(): void;
 }
 
-const CLIENT_ID = process.env.VITE_GAMES_CLIENT_ID || process.env.GAMES_CLIENT_ID || 'lrh6dcf697l3kymiqcmtxxdlwnrs3d';
-const AUTHORIZATION = process.env.VITE_GAMES_AUTHORIZATION || process.env.GAMES_AUTHORIZATION || 'Bearer szkydj6gnh2kq30cfwgynyo5dzsl6m';
+const CLIENT_ID = process.env.VITE_GAMES_CLIENT_ID || process.env.GAMES_CLIENT_ID || '';
+const AUTHORIZATION = process.env.VITE_GAMES_AUTHORIZATION || process.env.GAMES_AUTHORIZATION || '';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Enable CORS

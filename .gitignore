@@ -23,5 +23,15 @@ dist-ssr
 *.sln
 *.sw?
 
-# env
+# Environment variables
 .env
+.env.local
+.env.*.local
+.env.production
+.env.development
+!.env.example
+
+# Scratch and test files
+scratch/
+*.test.js
+*.test.ts

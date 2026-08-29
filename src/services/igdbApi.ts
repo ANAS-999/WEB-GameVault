@@ -1,7 +1,7 @@
 import { IGDBGame } from '../types';
 
 const API_URL = import.meta.env.VITE_GAMES_API_URL || '/api/games/';
-const CLIENT_ID = import.meta.env.VITE_GAMES_CLIENT_ID || 'lrh6dcf697l3kymiqcmtxxdlwnrs3d';
+const CLIENT_ID = import.meta.env.VITE_GAMES_CLIENT_ID || '';
 const AUTHORIZATION = import.meta.env.VITE_GAMES_AUTHORIZATION || '';
 
 const getHeaders = () => {

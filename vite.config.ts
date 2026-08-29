@@ -3,8 +3,8 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
-  const clientId = env.VITE_GAMES_CLIENT_ID || 'lrh6dcf697l3kymiqcmtxxdlwnrs3d';
-  const authorization = env.VITE_GAMES_AUTHORIZATION || 'Bearer szkydj6gnh2kq30cfwgynyo5dzsl6m';
+  const clientId = env.VITE_GAMES_CLIENT_ID || '';
+  const authorization = env.VITE_GAMES_AUTHORIZATION || '';
 
   const handleProxyReq = (proxyReq: any) => {
     if (proxyReq.headersSent) return;
