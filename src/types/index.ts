@@ -37,6 +37,11 @@ export interface IGDBGame {
     image_id?: string;
   }[];
   websites?: IGDBWebsite[];
+  category?: number;
+  game_type?: number;
+  parent_game?: number;
+  version_parent?: number;
+  collections?: { id: number; name: string }[];
 }
 
 export interface VaultItem {

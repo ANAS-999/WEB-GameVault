@@ -29,7 +29,7 @@ const AppContent: React.FC = () => {
         vaultCount={vaultItems.length}
       />
 
-      {/* Main Container - Pixel Perfect Padding & Alignment */}
+      {/* Main Container */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-6 lg:px-10 py-6 space-y-8">
         
         {/* Firebase Config Info Banner if placeholders detected */}
@@ -94,6 +94,7 @@ const AppContent: React.FC = () => {
         game={selectedGame}
         onClose={() => setSelectedGame(null)}
         onOpenAuth={() => setIsAuthOpen(true)}
+        onSelectGame={(game) => setSelectedGame(game)}
       />
 
       <AuthModal
