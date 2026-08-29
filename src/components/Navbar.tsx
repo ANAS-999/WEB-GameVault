@@ -65,11 +65,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <Compass className="w-4 h-4 text-white" />
             <span>Explore</span>
             {activeTab === 'explore' && (
-              <motion.span
-                layoutId="activeTabGlider"
-                transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-                className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-white rounded-full"
-              />
+              <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-white rounded-full" />
             )}
           </button>
 
@@ -89,11 +85,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               </span>
             )}
             {activeTab === 'vault' && (
-              <motion.span
-                layoutId="activeTabGlider"
-                transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-                className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-white rounded-full"
-              />
+              <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-white rounded-full" />
             )}
           </button>
         </nav>
@@ -160,11 +152,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <Compass className={`w-5 h-5 ${activeTab === 'explore' ? 'text-white scale-110' : 'text-[#71717a]'}`} />
             <span className="text-[11px]">Explore</span>
             {activeTab === 'explore' && (
-              <motion.span
-                layoutId="activeTabMobileGlider"
-                transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-                className="w-1 h-1 bg-white rounded-full mt-0.5"
-              />
+              <span className="w-1 h-1 bg-white rounded-full mt-0.5" />
             )}
           </button>
 
@@ -186,11 +174,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
             <span className="text-[11px]">My Vault</span>
             {activeTab === 'vault' && (
-              <motion.span
-                layoutId="activeTabMobileGlider"
-                transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-                className="w-1 h-1 bg-white rounded-full mt-0.5"
-              />
+              <span className="w-1 h-1 bg-white rounded-full mt-0.5" />
             )}
           </button>
         </div>

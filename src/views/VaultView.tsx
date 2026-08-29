@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { 
   Bookmark, Search, LogIn, Gamepad2, 
-  CheckCircle2, PlayCircle, Clock, XCircle, ArrowUpDown, Trash2, Loader2, Calendar, Monitor, X
+  CheckCircle2, PlayCircle, Clock, XCircle, ArrowUpDown, Trash2, Loader2, Calendar, Monitor, X, Star
 } from 'lucide-react';
 import { useVault } from '../context/VaultContext';
 import { useAuth } from '../context/AuthContext';
@@ -55,41 +55,51 @@ export const VaultView: React.FC<VaultViewProps> = ({ onSelectGame, onOpenAuth }
 
   // Counts summary
   const counts = useMemo(() => {
+    const items = Array.isArray(vaultItems) ? vaultItems : [];
     return {
-      all: vaultItems.length,
-      playing: vaultItems.filter(i => i.status === 'playing').length,
-      completed: vaultItems.filter(i => i.status === 'completed').length,
-      want_to_play: vaultItems.filter(i => i.status === 'want_to_play').length,
-      dropped: vaultItems.filter(i => i.status === 'dropped').length,
+      all: items.length,
+      playing: items.filter(i => i?.status === 'playing').length,
+      completed: items.filter(i => i?.status === 'completed').length,
+      want_to_play: items.filter(i => i?.status === 'want_to_play').length,
+      dropped: items.filter(i => i?.status === 'dropped').length,
     };
   }, [vaultItems]);
 
-  // Filtered & Sorted items
+  // Filtered & Sorted items with full null-safety
   const filteredItems = useMemo(() => {
+    if (!Array.isArray(vaultItems)) return [];
     return vaultItems
       .filter((item) => {
+        if (!item) return false;
         const matchesTab = activeTab === 'all' || item.status === activeTab;
-        const matchesSearch = !searchQuery.trim() || 
-          item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          item.genres.some(g => g.toLowerCase().includes(searchQuery.toLowerCase())) ||
-          item.platforms.some(p => p.toLowerCase().includes(searchQuery.toLowerCase()));
+        const title = item.title || '';
+        const genres = Array.isArray(item.genres) ? item.genres : [];
+        const platforms = Array.isArray(item.platforms) ? item.platforms : [];
+        const query = searchQuery.trim().toLowerCase();
+        
+        const matchesSearch = !query || 
+          title.toLowerCase().includes(query) ||
+          genres.some(g => (g || '').toLowerCase().includes(query)) ||
+          platforms.some(p => (p || '').toLowerCase().includes(query));
+        
         return matchesTab && matchesSearch;
       })
       .sort((a, b) => {
-        if (sortBy === 'title') return a.title.localeCompare(b.title);
-        return new Date(b.addedAt).getTime() - new Date(a.addedAt).getTime();
+        if (sortBy === 'title') return (a.title || '').localeCompare(b.title || '');
+        return new Date(b.addedAt || 0).getTime() - new Date(a.addedAt || 0).getTime();
       });
   }, [vaultItems, activeTab, searchQuery, sortBy]);
 
   const handleOpenModal = (item: VaultItem) => {
+    if (!item) return;
     const game: IGDBGame = {
       id: item.gameId,
-      name: item.title,
-      cover: { id: 0, url: item.coverUrl },
+      name: item.title || 'Untitled Game',
+      cover: { id: 0, url: item.coverUrl || '' },
       rating: item.ratingScore,
       first_release_date: item.releaseYear ? Math.floor(new Date(item.releaseYear, 0, 1).getTime() / 1000) : undefined,
-      genres: item.genres.map((g, i) => ({ id: i, name: g })),
-      platforms: item.platforms.map((p, i) => ({ id: i, name: p })),
+      genres: Array.isArray(item.genres) ? item.genres.map((g, i) => ({ id: i, name: g })) : [],
+      platforms: Array.isArray(item.platforms) ? item.platforms.map((p, i) => ({ id: i, name: p })) : [],
     };
     onSelectGame(game);
   };
@@ -145,7 +155,7 @@ export const VaultView: React.FC<VaultViewProps> = ({ onSelectGame, onOpenAuth }
         <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar justify-start px-1">
           {statusTabs.map((tab) => {
             const Icon = tab.icon;
-            const count = counts[tab.id];
+            const count = counts[tab.id] || 0;
             return (
               <button
                 key={tab.id}
@@ -220,12 +230,17 @@ export const VaultView: React.FC<VaultViewProps> = ({ onSelectGame, onOpenAuth }
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-6">
           {filteredItems.map((item) => {
-            const shortPlatforms = item.platforms?.map(formatPlatformShort) || [];
+            const shortPlatforms = Array.isArray(item.platforms) ? item.platforms.map(formatPlatformShort) : [];
             const uniquePlatforms = Array.from(new Set(shortPlatforms)).slice(0, 3);
+            const statusConfig = (item.status && statusLabels[item.status]) || {
+              label: 'Want to Play',
+              bg: 'bg-white text-black',
+              text: 'text-black font-bold'
+            };
 
             return (
               <motion.div
-                key={item.id}
+                key={item.id || item.gameId}
                 whileHover={{ y: -5 }}
                 transition={{ duration: 0.18, ease: 'easeOut' }}
                 onClick={() => handleOpenModal(item)}
@@ -235,13 +250,13 @@ export const VaultView: React.FC<VaultViewProps> = ({ onSelectGame, onOpenAuth }
                 <div className="relative aspect-[3/4] w-full bg-[#141417] rounded-xl overflow-hidden shadow-md">
                   <img
                     src={getIgdbImageUrl(item.coverUrl, undefined, 't_1080p')}
-                    alt={item.title}
+                    alt={item.title || 'Game Cover'}
                     loading="lazy"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
 
                   {/* Rating Score Badge */}
-                  {item.ratingScore && (
+                  {item.ratingScore !== undefined && item.ratingScore !== null && (
                     <div className="absolute top-2 left-2 bg-[#0a0a0c]/90 border border-[#27272a] text-white text-[11px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1 backdrop-blur-md">
                       <Star className="w-3 h-3 text-white fill-white" />
                       <span>{Math.round(item.ratingScore)}%</span>
@@ -249,8 +264,8 @@ export const VaultView: React.FC<VaultViewProps> = ({ onSelectGame, onOpenAuth }
                   )}
 
                   {/* Status Badge */}
-                  <div className={`absolute top-2 right-2 text-[10px] font-bold px-2 py-0.5 rounded-md shadow-md ${statusLabels[item.status].bg} ${statusLabels[item.status].text}`}>
-                    {statusLabels[item.status].label}
+                  <div className={`absolute top-2 right-2 text-[10px] font-bold px-2 py-0.5 rounded-md shadow-md ${statusConfig.bg} ${statusConfig.text}`}>
+                    {statusConfig.label}
                   </div>
 
                   {/* Delete Button on Hover / Touch */}
@@ -271,7 +286,7 @@ export const VaultView: React.FC<VaultViewProps> = ({ onSelectGame, onOpenAuth }
                 {/* Poster Details Below */}
                 <div className="px-0.5 space-y-0.5 sm:space-y-1">
                   <h3 className="font-bold text-xs sm:text-sm text-white line-clamp-1 group-hover:text-zinc-300 transition-colors tracking-tight">
-                    {item.title}
+                    {item.title || 'Untitled Game'}
                   </h3>
 
                   <div className="flex items-center justify-between text-[11px] sm:text-xs text-[#8e8e93]">
@@ -282,7 +297,7 @@ export const VaultView: React.FC<VaultViewProps> = ({ onSelectGame, onOpenAuth }
                       </span>
                     ) : (
                       <span className="text-[10px] sm:text-[11px] font-medium text-[#8e8e93]">
-                        {item.genres[0] || 'Game'}
+                        {(Array.isArray(item.genres) && item.genres[0]) || 'Game'}
                       </span>
                     )}
 

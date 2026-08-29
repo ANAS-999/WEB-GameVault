@@ -123,13 +123,60 @@ const AppContent: React.FC = () => {
   );
 };
 
+interface ErrorBoundaryState {
+  hasError: boolean;
+  error?: Error;
+}
+
+class ErrorBoundary extends React.Component<{ children: React.ReactNode }, ErrorBoundaryState> {
+  constructor(props: { children: React.ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, errorInfo: any) {
+    console.error('Uncaught error in application:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="min-h-screen bg-[#0a0a0c] text-white flex items-center justify-center p-6 text-center">
+          <div className="max-w-md p-8 bg-[#0c0c0e] border border-white/[0.08] rounded-3xl shadow-2xl space-y-4">
+            <h2 className="text-xl font-bold">Something went wrong</h2>
+            <p className="text-xs text-zinc-400">
+              An unexpected error occurred while loading this view.
+            </p>
+            <button
+              onClick={() => {
+                this.setState({ hasError: false });
+                window.location.reload();
+              }}
+              className="px-5 py-2 bg-white text-black font-bold text-xs rounded-full hover:bg-zinc-200 transition-all shadow-sm"
+            >
+              Reload Application
+            </button>
+          </div>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 export const App: React.FC = () => {
   return (
-    <AuthProvider>
-      <VaultProvider>
-        <AppContent />
-      </VaultProvider>
-    </AuthProvider>
+    <ErrorBoundary>
+      <AuthProvider>
+        <VaultProvider>
+          <AppContent />
+        </VaultProvider>
+      </AuthProvider>
+    </ErrorBoundary>
   );
 };
 
